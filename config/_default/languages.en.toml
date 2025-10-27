@@ -19,8 +19,8 @@ title = "Aline Ávila"
   email = "aline.avila01@gmail.com"
   image = "https://avatars.githubusercontent.com/u/24813256?s=400&u=15033e9ced7f02e62b900abfb738a909faedd003&v=4"
   imageQuality = 96
-  headline = "I'm a software engineer sharing what I learn, hoping it might help you too."
-  bio = "I'm a software engineer sharing what I learn, hoping it might help you too."
+  headline = "Sou engenheira de software, falo sobre o que aprendo no caminho esperando que te ajude de alguma forma.<br> 🚫🤖 Conteúdo 100% humano. Nenhum robô foi ferido durante a escrita."
+  bio = "Sou engenheira de software, falo sobre o que aprendo no caminho esperando que te ajude de alguma forma.<br> 🚫🤖 Conteúdo 100% humano."
   links = [
 #     { email = "mailto:hello@your_domain.com" },
 #     { link = "https://link-to-some-website.com/" },
