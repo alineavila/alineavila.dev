@@ -16,6 +16,13 @@ buildFuture = false
 
 enableEmoji = true
 
+# Use Git commit info for .Lastmod and related features
+enableGitInfo = true
+
+[frontmatter]
+  # Prefer Git commit timestamp for last modification time
+  lastmod = [":git", "lastmod", "date", "publishDate"]
+
 # googleAnalytics = "G-XXXXXXXXX"
 
 [pagination]
