@@ -3,3 +3,13 @@
 node_modules
 public
 /resources/_gen/
+
+# macOS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+
+# Thumbnails
+Thumbs.db
