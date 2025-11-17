@@ -22,31 +22,35 @@ Importante entender também a estratégia de lock otimista e analisar qual se en
 
 ## Concorrência
 
-Bom imagina uma aplicação multithread, ou seja, o mesmo recurso pode ser acessado simultaneamente por threads diferentes.
+Bom, imagina uma aplicação multithread, ou seja, o mesmo recurso pode ser acessado simultaneamente por threads diferentes.
 
 Threads são processos em paralelo que estão rodando no seu programa e cada uma pode estar "disputando" o mesmo dado.
 
-Trazendo pra vida real é como se você leitor tivesse tentando reservar a cadeira E10 da sessão de Velozes e Furiosos do dia 16/11 às 19:00 e Bento no mesmíssimo instante está fazendo a mesma reserva, na mesma cadeira, na mesma sessão. Ou seja, vocês estão "disputando" o mesmo recurso do banco de dados. Está aí um clássico exemplo de concorrência.
+Trazendo pra vida real, é como se você, leitor, tivesse tentando reservar a cadeira E10 da sessão de Velozes e Furiosos do dia 16/11 às 19:00 e Bento, no mesmíssimo instante, está fazendo a mesma reserva, na mesma cadeira, na mesma sessão. Ou seja, vocês estão "disputando" o mesmo recurso do banco de dados. Está aí um clássico exemplo de concorrência.
 
 Pra resolver esse caso temos várias alternativas e uma delas é o uso de Lock. 
 
 ## 🔒 O que é Lock Pessimista e Lock Otimista?
 
-De maneira bastante resumida um lock otimista assume que os conflitos são raros e o lock pessimista assume que os conflitos são comuns. 
+De maneira bastante resumida, um lock otimista assume que os conflitos são raros e o lock pessimista assume que os conflitos são comuns. 
 
 Tá, mas o que isso significa? Signfica que as estratégias são diferentes para cada um. 
 
-O Lock otimista verifica conflitos apenas na hora de atualizar o registro, toda vez que há uma atualizaçao o recurso é versionado, agora com um atributo novo (version). Então supondo que eu estou atualizando o registro de versão 2 se na hora de fazer o commit o lock vê que já existe a versão 3 isso significa que meu registro já não é o mais atual e a atualização para. Por exemplo, se você começou a editar com versão 2, mas outra transação já criou a versão 3, sua atualização será rejeitada. (Muito abstrato, eu sei, escrever sobre lock não está sendo fácil, mas no próximo artigo vamos aprofundar no lock otimista)
+O Lock otimista verifica conflitos apenas na hora de atualizar o registro. Então, supondo que eu estou atualizando o registro de versão 2: se na hora de fazer o commit o lock vê que já existe a versão 3, significa que meu registro já não é o mais atual e a atualização para. 
+
+Por exemplo, se você começou a editar com versão 2, mas outra transação já criou a versão 3, sua atualização será rejeitada (muito abstrato, eu sei, escrever sobre lock não está sendo fácil, mas no próximo artigo vamos aprofundar no lock otimista).
 
 
 ### Lock Pessimista
+
 Aqui assumimos que os conflitos são comuns e por isso o lock pessimista "tranca" o registro. 
+
 Podemos dizer que a tentativa de fazer a mesma reserva no cinema é comum, certo? Bom... então vamos implantar um lock pessimista nesse sistema. 
 
 Isso significa que a partir de agora sempre que algum dado (a cadeira E10 da sessão de Velozes e Furiosos dia 16/11 as 19:00) estiver sendo disputado (por você e Bento) nós vamos trancar o acesso a essa linha do banco até que quem chegou primeiro finalize a operação que está tentando fazer.
 
 A imagem abaixo mostra em alto nível como é realizado o lock.
-Supondo que Bento começou a reserva primeiro, você só poderar fazer modificaçoes (reservar) aquele assento quando Bento terminar ou desistir do processo dele. 
+Supondo que Bento começou a reserva primeiro, você só poderá fazer modificações (reservar) aquele assento quando Bento terminar ou desistir do processo dele. 
 
 ![lock-pessimista-flow](image.png)
 
@@ -80,7 +84,8 @@ public void processarPedido(Long pedidoId) {
 ```
 
 {{< alert >}}
-Importante notar aqui que o recurso mais escasso da sua aplicação não é CPU ou memória, é o pool de conexões do banco de dados. O lock pessimista segura essa conexão durante todo o tempo de vida da transação. Se a sua "lógica de negócio" for lenta (ex: chamar uma API externa), sua aplicação irá parar.
+Importante notar aqui que o recurso mais escasso da sua aplicação não é CPU ou memória, é o pool de conexões do banco de dados. 
+O lock pessimista segura essa conexão durante todo o tempo de vida da transação. Se a sua "lógica de negócio" for lenta (ex: chamar uma API externa), sua aplicação irá parar.
 Por isso é importante trabalhar na arquitetura da sua aplicação e não deixar que a transação precise ficar esperando por respostas externas.
 {{< /alert >}}
 
