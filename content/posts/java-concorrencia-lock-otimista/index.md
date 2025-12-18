@@ -18,7 +18,7 @@ Importante entender também a estratégia de lock pessimista, que escrevemos [aq
 
 
 
-## 🧩 Mas na prática qual a diferença entre o lock otimisa e o pessimista?
+## 🧩 Mas na prática qual a diferença entre o lock otimista e o pessimista?
 
 Lembra que o lock pessimista cria um bloqueio no registro desde o inicio da transação até que ela finalize? Isso pode gerar alguns trade offs, como por exemplo o esgotamento do pool de conexões em que detalho abaixo.
 
